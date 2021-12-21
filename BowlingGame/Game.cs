@@ -9,8 +9,27 @@ namespace BowlingGame
     public class Game
     {
         private int score;
+        private int currentRoll;
+        private int lastPinCount;
+        private bool isSpare;
         public void Roll(int pins)
         {
+            if (isSpare)
+            {
+                score += pins;
+                isSpare = false;
+            }
+
+            currentRoll++;
+            if (currentRoll % 2 == 0)
+            {
+                if (pins + lastPinCount == 10)
+                {
+                    isSpare = true;
+                }
+            }
+
+            lastPinCount = pins;
             score += pins;
         }
 
