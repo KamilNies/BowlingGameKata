@@ -12,12 +12,26 @@ namespace BowlingGame
         private int currentRoll;
         private int lastPinCount;
         private bool isSpare;
+        private bool isStrike;
+        private int strikeCounter;
+
         public void Roll(int pins)
         {
             if (isSpare)
             {
                 score += pins;
                 isSpare = false;
+            }
+
+            if (isStrike)
+            {
+                score += pins;
+                strikeCounter++;
+                currentRoll++;
+                if (strikeCounter == 2)
+                {
+                    isStrike = false;
+                }
             }
 
             currentRoll++;
@@ -27,6 +41,12 @@ namespace BowlingGame
                 {
                     isSpare = true;
                 }
+            }
+
+            if (pins == 10)
+            {
+                isStrike = true;
+                strikeCounter = 0;
             }
 
             lastPinCount = pins;
