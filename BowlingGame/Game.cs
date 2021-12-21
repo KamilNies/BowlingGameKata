@@ -9,48 +9,85 @@ namespace BowlingGame
     public class Game
     {
         private int score;
-        private int currentRoll;
-        private int lastPinCount;
-        private bool isSpare;
-        private bool isStrike;
-        private int strikeCounter;
+        private List<Frame> frames = new List<Frame>();
 
         public void Roll(int pins)
         {
-            if (isSpare)
+            if (IsFirstRollInFrame())
             {
-                score += pins;
-                isSpare = false;
-            }
+                if (WasPreviousRollSpare())
+                    frames.Last().Slot.Add(pins);
 
-            if (isStrike)
-            {
-                score += pins;
-                strikeCounter++;
-                currentRoll++;
-                if (strikeCounter == 2)
+                if (WasPreviousRollStrike())
+                    frames.Last().Slot.Add(pins);
+
+                frames.Add(new Frame(pins, WasPreviousRollStrike()));
+
+                if (IsStrike())
                 {
-                    isStrike = false;
+                    frames.Last().Slot.Add(0);
+                    frames.Last().IsStrike = true;
+                    return;
                 }
+                CalculateScore();
+                return;
             }
 
-            currentRoll++;
-            if (currentRoll % 2 == 0)
+            if (WasSecondLastRollStrike())
+                frames.Last(frame => frame.IsStrike).Slot.Add(pins);
+
+            frames.Last().Slot.Add(pins);
+
+            if (IsSpare())
             {
-                if (pins + lastPinCount == 10)
-                {
-                    isSpare = true;
-                }
+                frames.Last().IsSpare = true;
+                return;
             }
 
-            if (pins == 10)
+            CalculateScore();
+        }
+
+        private bool WasSecondLastRollStrike()
+        {
+            return frames.Any() ? 
+                frames.Last().WasPreviousRollStrike : 
+                false;
+        }
+
+        private bool WasPreviousRollStrike()
+        {
+            return frames.Any() ? 
+                frames.Last().IsStrike : 
+                false;
+        }
+
+        private bool IsStrike()
+        {
+            return frames.Last().Slot.First() == 10;
+        }
+
+        private bool WasPreviousRollSpare()
+        {
+            return frames.Any() ? frames.Last().IsSpare : false;
+        }
+
+        private bool IsSpare()
+        {
+            return frames.Last().Slot.Sum() == 10;
+        }
+
+        private void CalculateScore()
+        {
+            score = frames.Sum(frame => frame.Slot.Sum());
+        }
+
+        private bool IsFirstRollInFrame()
+        {
+            if (!frames.Any())
             {
-                isStrike = true;
-                strikeCounter = 0;
+                return true;
             }
-
-            lastPinCount = pins;
-            score += pins;
+            return frames.Last().Slot.Count > 1;
         }
 
         public int Score()

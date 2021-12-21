@@ -80,7 +80,7 @@ namespace BowlingGameTest
                 game.Roll(roll);
             }
 
-            Assert.Equal(76, game.Score());
+            Assert.Equal(74, game.Score());
         }
     }
 }
