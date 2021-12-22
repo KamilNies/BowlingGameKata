@@ -82,5 +82,23 @@ namespace BowlingGameTest
 
             Assert.Equal(74, game.Score());
         }
+
+        [Fact]
+        public void Roll_2_strikes_in_a_row_before_frame_10()
+        {
+            var game = new Game();
+            var rolls = new int[18]
+            {
+                2,6,10,10,5,3,5,2,4,
+                3,1,1,4,1,6,0,3,2
+            };
+
+            foreach (var roll in rolls)
+            {
+                game.Roll(roll);
+            }
+
+            Assert.Equal(91, game.Score());
+        }
     }
 }

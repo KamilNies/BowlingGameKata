@@ -15,42 +15,57 @@ namespace BowlingGame
         {
             if (IsFirstRollInFrame())
             {
+                var frame = new Frame(pins);
                 if (WasPreviousRollSpare())
                     frames.Last().Slot.Add(pins);
 
                 if (WasPreviousRollStrike())
+                {
                     frames.Last().Slot.Add(pins);
+                    frame.IsSecondRollAfterStrike = true;
 
-                frames.Add(new Frame(pins, WasPreviousRollStrike()));
+                    if (IsSecondRollAfterStrike())
+                    {
+                        frames[^2].Slot.Add(pins);
+                    }
+                }
+
+                frames.Add(frame);
 
                 if (IsStrike())
                 {
-                    frames.Last().Slot.Add(0);
-                    frames.Last().IsStrike = true;
+                    frame.Slot.Add(0);
+                    frame.IsStrike = true;
+                    CalculateScore();
                     return;
                 }
+
                 CalculateScore();
                 return;
             }
 
-            if (WasSecondLastRollStrike())
-                frames.Last(frame => frame.IsStrike).Slot.Add(pins);
+            if (IsSecondRollAfterStrike())
+            {
+                frames[^2].Slot.Add(pins);
+                frames.Last().IsSecondRollAfterStrike = true;
+            }
 
             frames.Last().Slot.Add(pins);
 
             if (IsSpare())
             {
                 frames.Last().IsSpare = true;
+                CalculateScore();
                 return;
             }
 
             CalculateScore();
         }
 
-        private bool WasSecondLastRollStrike()
+        private bool IsSecondRollAfterStrike()
         {
             return frames.Any() ? 
-                frames.Last().WasPreviousRollStrike : 
+                frames.Last().IsSecondRollAfterStrike : 
                 false;
         }
 
