@@ -48,10 +48,7 @@ namespace BowlingGame
             frames.Last().Slot.Add(pins);
 
             if (IsSpare())
-            {
                 frames.Last().IsSpare = true;
-                return;
-            }
         }
 
         private bool IsSecondRollAfterStrike()

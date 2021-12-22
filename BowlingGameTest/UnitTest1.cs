@@ -280,5 +280,41 @@ namespace BowlingGameTest
 
             Assert.Equal(98, game.Score());
         }
+
+        [Fact]
+        public void A_game_with_only_spares()
+        {
+            var game = new Game();
+            var rolls = new int[21]
+            {
+                5, 5, 3, 7, 5, 5, 8, 2, 6, 4,
+                9, 1, 9, 1, 7, 3, 2, 8, 3, 7, 4
+            };
+
+            foreach (var roll in rolls)
+            {
+                game.Roll(roll);
+            }
+
+            Assert.Equal(156, game.Score());
+        }
+
+        [Fact]
+        public void A_perfect_game()
+        {
+            var game = new Game();
+            var rolls = new int[12]
+            {
+                10, 10, 10, 10, 10, 10, 
+                10, 10, 10, 10, 10, 10
+            };
+
+            foreach (var roll in rolls)
+            {
+                game.Roll(roll);
+            }
+
+            Assert.Equal(300, game.Score());
+        }
     }
 }
