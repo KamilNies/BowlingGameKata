@@ -8,7 +8,7 @@ namespace BowlingGame
 {
     public class Frame
     {
-        //Frames 1 throughout 9 has 2 slots each
+        //Frames 1 throughout 9 have 2 slots each
         public bool IsSpare { get; set; }
         public bool IsStrike { get; set; }
         public bool IsSecondRollAfterStrike { get; set; }
