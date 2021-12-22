@@ -9,7 +9,7 @@ namespace BowlingGame
     public class Game
     {
         private int score;
-        private List<Frame> frames = new List<Frame>();
+        private readonly List<Frame> frames = new List<Frame>();
 
         public void Roll(int pins)
         {
@@ -36,11 +36,8 @@ namespace BowlingGame
                 {
                     frame.Slot.Add(0);
                     frame.IsStrike = true;
-                    CalculateScore();
                     return;
                 }
-
-                CalculateScore();
                 return;
             }
 
@@ -55,11 +52,8 @@ namespace BowlingGame
             if (IsSpare())
             {
                 frames.Last().IsSpare = true;
-                CalculateScore();
                 return;
             }
-
-            CalculateScore();
         }
 
         private bool IsSecondRollAfterStrike()
@@ -107,6 +101,10 @@ namespace BowlingGame
 
         public int Score()
         {
+            CalculateScore();
+            if (frames.Count == 11)
+                return score - frames.Last().Slot.Sum();
+
             return score;
         }
     }
