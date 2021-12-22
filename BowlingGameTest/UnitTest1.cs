@@ -208,5 +208,23 @@ namespace BowlingGameTest
 
             Assert.Equal(104, game.Score());
         }
+
+        [Fact]
+        public void A_game_with_strikes_and_spares_in_no_particular_order()
+        {
+            var game = new Game();
+            var rolls = new int[18]
+            {
+                5, 3, 7, 3, 10, 3, 5, 9, 1,
+                10, 5, 4, 10, 5, 2, 10, 8, 1
+            };
+
+            foreach (var roll in rolls)
+            {
+                game.Roll(roll);
+            }
+
+            Assert.Equal(145, game.Score());
+        }
     }
 }
