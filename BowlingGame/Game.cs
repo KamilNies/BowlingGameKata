@@ -53,16 +53,12 @@ namespace BowlingGame
 
         private bool IsSecondRollAfterStrike()
         {
-            return frames.Any() ? 
-                frames.Last().IsSecondRollAfterStrike : 
-                false;
+            return frames.Any() && frames.Last().IsSecondRollAfterStrike;
         }
 
         private bool WasPreviousRollStrike()
         {
-            return frames.Any() ? 
-                frames.Last().IsStrike : 
-                false;
+            return frames.Any() && frames.Last().IsStrike;
         }
 
         private bool IsStrike()
@@ -72,7 +68,7 @@ namespace BowlingGame
 
         private bool WasPreviousRollSpare()
         {
-            return frames.Any() ? frames.Last().IsSpare : false;
+            return frames.Any() && frames.Last().IsSpare;
         }
 
         private bool IsSpare()
