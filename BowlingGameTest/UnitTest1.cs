@@ -190,5 +190,23 @@ namespace BowlingGameTest
 
             Assert.Equal(93, game.Score());
         }
+
+        [Fact]
+        public void From_frame_2_every_other_frame_is_a_spare()
+        {
+            var game = new Game();
+            var rolls = new int[21]
+            {
+                4, 2, 8, 2, 1, 2, 0, 10, 3, 6,
+                1, 9, 7, 1, 5, 5, 3, 4, 9, 1, 7
+            };
+
+            foreach (var roll in rolls)
+            {
+                game.Roll(roll);
+            }
+
+            Assert.Equal(104, game.Score());
+        }
     }
 }
