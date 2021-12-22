@@ -89,8 +89,8 @@ namespace BowlingGameTest
             var game = new Game();
             var rolls = new int[18]
             {
-                2,6,10,10,5,3,5,2,4,
-                3,1,1,4,1,6,0,3,2
+                2, 6, 10, 10, 5, 3, 5, 2, 4,
+                3, 1, 1, 4, 1, 6, 0, 3, 2
             };
 
             foreach (var roll in rolls)
@@ -99,6 +99,24 @@ namespace BowlingGameTest
             }
 
             Assert.Equal(91, game.Score());
+        }
+
+        [Fact]
+        public void Start_game_with_3_strikes_in_a_row()
+        {
+            var game = new Game();
+            var rolls = new int[17]
+            {
+                10, 10, 10, 2, 3, 2, 4, 1,
+                5, 0, 3, 4, 2, 2, 5, 3, 2
+            };
+
+            foreach (var roll in rolls)
+            {
+                game.Roll(roll);
+            }
+
+            Assert.Equal(105, game.Score());
         }
     }
 }
