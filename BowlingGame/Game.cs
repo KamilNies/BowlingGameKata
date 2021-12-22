@@ -25,9 +25,7 @@ namespace BowlingGame
                     frame.IsSecondRollAfterStrike = true;
 
                     if (IsSecondRollAfterStrike())
-                    {
                         frames[^2].Slot.Add(pins);
-                    }
                 }
 
                 frames.Add(frame);
@@ -102,9 +100,15 @@ namespace BowlingGame
         public int Score()
         {
             CalculateScore();
-            if (frames.Count == 11)
-                return score - frames.Last().Slot.Sum();
-
+            if (frames.Count > 10)
+            {
+                int newScore = score - frames.Last().Slot.Sum();
+                if (frames.Count > 11)
+                {
+                    return newScore - frames[^2].Slot.Sum();
+                }
+                return newScore;
+            }
             return score;
         }
     }
